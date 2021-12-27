@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\UserRoleModel;
 use App\Rule\ControllerInterface;
+use Core\View;
 
 class UserRoleController implements ControllerInterface {
     public function get()
@@ -12,11 +13,13 @@ class UserRoleController implements ControllerInterface {
     }
 
     /**
-     * @return array
+     * @throws \Exception
      */
-    public function show() : array
+    public function show()
     {
-        return UserRoleModel::all();
+        $users = UserRoleModel::all();
+
+        View::render('roles/show.php', ['users' => $users]);
     }
 
     public function edit()
