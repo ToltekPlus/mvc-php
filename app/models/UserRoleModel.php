@@ -27,4 +27,15 @@ class UserRoleModel extends Model {
         $selected_tables = $users_role->selected_tables($users_role->table, $users_role->pivot_tables);
         return $users_role->getAllPivot($selected_tables);
     }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    static function find(int $id) : array
+    {
+        $users_role = new UserRoleModel();
+        $selected_tables = $users_role->selected_tables($users_role->table, $users_role->pivot_tables);
+        return $users_role->getById($selected_tables, $id);
+    }
 }

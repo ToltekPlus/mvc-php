@@ -7,19 +7,30 @@ use App\Rule\ControllerInterface;
 use Core\View;
 
 class UserRoleController implements ControllerInterface {
-    public function get()
+    /**
+     * @throws \Exception
+     */
+    public function index()
     {
-        // TODO: Implement get() method.
+        $users = UserRoleModel::all();
+
+        View::render('roles/show.php', ['users' => $users]);
     }
 
     /**
      * @throws \Exception
      */
+    public function get()
+    {
+        // TODO реализовать более удобный вывод одной записи
+        $user = UserRoleModel::find($_GET['id'])[0];
+
+        View::render('roles/get.php', ['user' => $user]);
+    }
+
     public function show()
     {
-        $users = UserRoleModel::all();
-
-        View::render('roles/show.php', ['users' => $users]);
+        // TODO: Implement show() method.
     }
 
     public function edit()

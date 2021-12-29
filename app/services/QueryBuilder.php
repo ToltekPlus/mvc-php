@@ -5,11 +5,13 @@ namespace App\Service;
 trait QueryBuilder {
     /**
      * Составляем SQL-запрос абстракто из нескольких таблиц
+     * Также существует условие выборки по ID
      *
      * @param array $tables
+     * @param int|null $id
      * @return string
      */
-    public function queryBuilder(array $tables) : string
+    public function queryBuilder(array $tables, ?int $id) : string
     {
         //$selected_table = implode(", ", $tables);
         // TODO переделать на спредах
@@ -22,7 +24,7 @@ trait QueryBuilder {
             }
         }
 
-        $where = $this->queryConditionWhereBuilder($tables);
+        $where = $this->queryConditionWhereBuilder($tables, $id);
 
         return "SELECT * FROM " . $selected_table . $where;
     }
@@ -30,11 +32,13 @@ trait QueryBuilder {
     /**
      * Подготавливаем условие WHERE
      *
-     * @param $tables
+     * @param array $tables
+     * @param int|null $id
      * @return string
      */
-    public function queryConditionWhereBuilder(array $tables) : string
+    public function queryConditionWhereBuilder(array $tables, ?int $id) : string
     {
+        // TODO изменить условие для достоверной выборки
         $count = count($tables);
 
         if ($count > 1) {
@@ -47,9 +51,25 @@ trait QueryBuilder {
                     $where .=  $tables[0]['table'] . '.' . $value['foreign_key'] . '=' . $value['table']. '.id AND ';
                 }
             }
+
+            $where .= $this->conditionForKey($tables, $id);
+
             $where .= ' GROUP BY ' . $tables[0]['table']. '.' . $tables[0]['group_key'];
         }
 
         return $where;
+    }
+
+
+    /**
+     * Составляем запрос по поиску по ID
+     *
+     * @param $tables
+     * @param $id
+     * @return string|void
+     */
+    public function conditionForKey($tables, $id)
+    {
+        if ($id != 0) return ' AND ' . $tables[0]['table']. '.id = ' . $id;
     }
 }

@@ -4,7 +4,17 @@ namespace Core;
 
 class View {
     /**
-     * Рендерим страницу
+     * Рендерим хэдер
+     */
+    public static function renderHeader()
+    {
+        $header = dirname(__DIR__) . "/app/views/layouts/header.php";
+
+        require $header;
+    }
+
+    /**
+     * Рендерим основной контент страницы
      *
      * @param string $view
      * @param array $args
@@ -21,5 +31,15 @@ class View {
         }else {
             throw new \Exception("$file не найден");
         }
+    }
+
+    /**
+     * Рендерим футер
+     */
+    public static function renderFooter()
+    {
+        $layout = dirname(__DIR__) . "/app/views/layouts/footer.php";
+
+        require $layout;
     }
 }

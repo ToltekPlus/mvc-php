@@ -36,7 +36,18 @@ class Model {
      */
     public function getAllPivot(array $tables) : array
     {
-        $sql = $this->queryBuilder($tables);
+        $sql = $this->queryBuilder($tables, 0);
+        return $this->connect->query($sql);
+    }
+
+    /**
+     * @param array $tables
+     * @param int $id
+     * @return array
+     */
+    public function getById(array $tables, int $id) : array
+    {
+        $sql = $this->queryBuilder($tables, $id);
         return $this->connect->query($sql);
     }
 

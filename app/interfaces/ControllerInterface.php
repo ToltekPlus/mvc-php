@@ -3,6 +3,7 @@
 namespace App\Rule;
 
 interface ControllerInterface {
+    public function index();
     public function get();
     public function show();
     public function store();
